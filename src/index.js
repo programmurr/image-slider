@@ -22,11 +22,32 @@ let currentIndex = 0;
 
 const currentImage = imageArray[0];
 currentImage.id = 'current-image';
+currentImage.style.opacity = 1;
 // let nextImage = document.createElement('img');
 const prevImage = document.createElement('img');
 prevImage.id = 'prev-image';
 
 pictureFrame.appendChild(currentImage);
+
+function fadeIn(img) {
+  const tick = function () {
+    img.style.opacity = +img.style.opacity + 0.01;
+    if (+img.style.opacity < 1) {
+      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+    }
+  };
+  tick();
+}
+
+function fadeOut(img) {
+  const tick = function () {
+    img.style.opacity = +img.style.opacity - 0.01;
+    if (+img.style.opacity > 0) {
+      (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+    }
+  };
+  tick();
+}
 
 function toggleNextImage() {
   let nextIndex = currentIndex + 1;
@@ -44,15 +65,10 @@ function toggleNextImage() {
 
   pictureFrame.appendChild(nextImage);
 
-  function increaseOpacity() {
-    let opacity = parseFloat(nextImage.style.opacity);
-    opacity += 0.02;
-    nextImage.style.opacity = opacity;
-  }
+  fadeIn(nextImage);
+  fadeOut(currentImage);
 
-  while (nextImage.style.opacity < 1) {
-    setTimeout(increaseOpacity, 50);
-  }
+  // figure out next steps i.e. what becomes next photo, next index, etc
 
   currentIndex = nextIndex;
 }
