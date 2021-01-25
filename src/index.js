@@ -20,24 +20,44 @@ picture4.src = Pic4;
 const imageArray = [picture1, picture2, picture3, picture4];
 let currentIndex = 0;
 
-picture1.className = 'visible';
+const currentImage = imageArray[0];
+currentImage.id = 'current-image';
+// let nextImage = document.createElement('img');
+const prevImage = document.createElement('img');
+prevImage.id = 'prev-image';
 
-pictureFrame.appendChild(picture1);
+pictureFrame.appendChild(currentImage);
 
-function nextImage() {
+function toggleNextImage() {
   let nextIndex = currentIndex + 1;
   if (nextIndex > imageArray.length - 1) {
     nextIndex = 0;
   }
 
-  pictureFrame.innerHTML = '';
-  imageArray[nextIndex].className = 'visible';
-  pictureFrame.appendChild(imageArray[nextIndex]);
-  imageArray[currentIndex].classList.remove('visible');
+  // wrap this into a function
+  const nextImage = document.createElement('img');
+  nextImage.src = imageArray[nextIndex].src;
+  nextImage.id = 'next-image';
+  nextImage.style.zIndex = 2;
+  nextImage.style.opacity = 0;
+  nextImage.style.verticalAlign = 'top';
+
+  pictureFrame.appendChild(nextImage);
+
+  function increaseOpacity() {
+    let opacity = parseFloat(nextImage.style.opacity);
+    opacity += 0.02;
+    nextImage.style.opacity = opacity;
+  }
+
+  while (nextImage.style.opacity < 1) {
+    setTimeout(increaseOpacity, 50);
+  }
+
   currentIndex = nextIndex;
 }
 
-function previousImage() {
+function togglePreviousImage() {
   let nextIndex = currentIndex - 1;
   if (nextIndex < 0) {
     nextIndex = imageArray.length - 1;
@@ -50,5 +70,5 @@ function previousImage() {
   currentIndex = nextIndex;
 }
 
-nextButton.addEventListener('click', nextImage);
-prevButton.addEventListener('click', previousImage);
+nextButton.addEventListener('click', toggleNextImage);
+prevButton.addEventListener('click', togglePreviousImage);

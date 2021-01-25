@@ -33,12 +33,21 @@ body {
 
 img {
   height: 400px;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
 }
 
-img.visible {
-  opacity: 1;
+#current-image {
+  z-index: 1;
+}
+
+#prev-image {
+  position: absolute;
+  /* top: 0px;
+  opacity: 0; */
+}
+#next-image {
+  position: absolute;
+  /* top: 0px;
+  opacity: 0; */
 }
 
 #nav-dot-container {
