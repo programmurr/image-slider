@@ -16,36 +16,41 @@ const imageSlider = () => {
     });
   };
 
-  const rotateDotImg = (dotNum) => {
-    navDots.forEach((dot, index) => {
-      if (index === dotNum) {
-        dot.classList.remove('hidden-dot');
-        dot.classList.add('active-dot');
-      } else {
-        dot.classList.remove('active-dot');
-        dot.classList.add('hidden-dot');
-      }
-    });
-  };
+  function rotateDots(nextIndex, currentIndex) {
+    navDots[currentIndex].classList.remove('active-dot');
+    navDots[currentIndex].classList.add('hidden-dot');
+    navDots[nextIndex].classList.remove('hidden-dot');
+    navDots[nextIndex].classList.add('active-dot');
+  }
 
   const nextButtonHandler = (event) => {
-    const imgIndex = (carousel.findIndex((image) => image.classList.contains('active')) + 1) % carousel.length;
-    rotateImg(imgIndex);
+    const nextIndex = (carousel.findIndex((image) => image.classList.contains('active')) + 1) % carousel.length;
+    const currentIndex = nextIndex === 0 ? carousel.length - 1 : nextIndex - 1;
+    rotateDots(nextIndex, currentIndex);
+    rotateImg(nextIndex);
   };
 
   const prevButtonHandler = (event) => {
-    const imgIndex = (carousel.findIndex((image) => image.classList.contains('active')) === 0)
+    const nextIndex = (carousel.findIndex((image) => image.classList.contains('active')) === 0)
       ? carousel.length - 1
       : carousel.findIndex((image) => image.classList.contains('active')) - 1;
-    rotateImg(imgIndex);
+    const currentIndex = nextIndex === carousel.length - 1 ? 0 : nextIndex + 1;
+    rotateDots(nextIndex, currentIndex);
+    rotateImg(nextIndex);
   };
 
   const dotHandler = (event) => {
-    // get the index of the clicked dot
-    // pass that index in and fix images accordingly
-    console.log(dotIndex);
-    // rotateDotImg(dotIndex);
-    // rotateImg(dotIndex);
+    const dotIndex = (navDots.findIndex((dot) => dot.classList.contains('active-dot')));
+    const imgIndex = (carousel.findIndex((image) => image.classList.contains('active')));
+    navDots[dotIndex].classList.remove('active-dot');
+    navDots[dotIndex].classList.add('hidden-dot');
+    carousel[imgIndex].classList.remove('active');
+    carousel[dotIndex].classList.add('hidden');
+    event.target.classList.remove('hidden-dot');
+    event.target.classList.add('active-dot');
+    const nextIndex = (navDots.findIndex((dot) => dot.classList.contains('active-dot')));
+    carousel[nextIndex].classList.remove('hidden');
+    carousel[nextIndex].classList.add('active');
   };
 
   nextButton.addEventListener('click', nextButtonHandler);
