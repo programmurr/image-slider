@@ -2,7 +2,8 @@ import Pic1 from '../img/pic1.jpg';
 import Pic2 from '../img/pic2.jpg';
 import Pic3 from '../img/pic3.jpg';
 import Pic4 from '../img/pic4.jpg';
-import Dot from '../img/dot.png';
+import FullDot from '../img/dot.png';
+import EmptyDot from '../img/empty-dot.png';
 
 const htmlGenerator = () => {
   const contentDiv = document.createElement('div');
@@ -74,17 +75,16 @@ const htmlGenerator = () => {
   carousel.forEach((image, index) => {
     const navDot = document.createElement('img');
     navDot.id = `nav-dot-${index}`;
-    navDot.src = Dot;
+    navDot.src = EmptyDot;
     navDot.className = 'nav-dot';
     if (index === 0) {
       navDot.classList.add('active-dot');
+      navDot.src = FullDot;
     } else {
       navDot.classList.add('hidden-dot');
     }
     navDotContainer.appendChild(navDot);
   });
-
-  // navDotContainer.appendChild(navDots);
 
   const buttonsContainer = document.createElement('div');
   buttonsContainer.id = 'buttons-container';

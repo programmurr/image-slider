@@ -1,3 +1,6 @@
+import FullDot from '../img/dot.png';
+import EmptyDot from '../img/empty-dot.png';
+
 const imageSlider = () => {
   const nextButton = document.querySelector('#next');
   const prevButton = document.querySelector('#previous');
@@ -19,8 +22,10 @@ const imageSlider = () => {
   function rotateDots(nextIndex, currentIndex) {
     navDots[currentIndex].classList.remove('active-dot');
     navDots[currentIndex].classList.add('hidden-dot');
+    navDots[currentIndex].src = EmptyDot;
     navDots[nextIndex].classList.remove('hidden-dot');
     navDots[nextIndex].classList.add('active-dot');
+    navDots[nextIndex].src = FullDot;
   }
 
   const nextButtonHandler = (event) => {
@@ -44,10 +49,12 @@ const imageSlider = () => {
     const imgIndex = (carousel.findIndex((image) => image.classList.contains('active')));
     navDots[dotIndex].classList.remove('active-dot');
     navDots[dotIndex].classList.add('hidden-dot');
+    navDots[dotIndex].src = EmptyDot;
     carousel[imgIndex].classList.remove('active');
     carousel[dotIndex].classList.add('hidden');
     event.target.classList.remove('hidden-dot');
     event.target.classList.add('active-dot');
+    event.target.src = FullDot;
     const nextIndex = (navDots.findIndex((dot) => dot.classList.contains('active-dot')));
     carousel[nextIndex].classList.remove('hidden');
     carousel[nextIndex].classList.add('active');
@@ -58,6 +65,9 @@ const imageSlider = () => {
   navDots.forEach((dot) => {
     dot.addEventListener('click', dotHandler);
   });
+
+  const imageLoop = () => { window.setInterval(nextButtonHandler, 5000); };
+  imageLoop();
 };
 
 export default imageSlider;
